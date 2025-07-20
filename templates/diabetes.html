@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diabetes Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .result-box {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    .positive {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #e60000;
+      border: 2px solid #e60000;
+    }
+    .negative {
+      background-color: rgba(0, 128, 0, 0.1);
+      color: #008000;
+      border: 2px solid #008000;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="gradient-bg">
+  <div class="form-container">
+    <h1 class="form-title">Diabetes Prediction</h1>
+
+    {% if result %}
+      <div class="result-box {% if 'Detected' in result %}positive{% else %}negative{% endif %}">
+        {{ result }}
+      </div>
+    {% endif %}
+
+    <form method="POST" class="prediction-form">
+      <label for="name">Name</label>
+      <input type="text" name="name" required />
+
+      <label>Pregnancies</label>
+      <input type="number" name="pregnancies" required />
+
+      <label>Glucose</label>
+      <input type="number" name="glucose" required />
+
+      <label>Blood Pressure</label>
+      <input type="number" name="bloodpressure" required />
+
+      <label>Skin Thickness</label>
+      <input type="number" name="skinthickness" required />
+
+      <label>Insulin</label>
+      <input type="number" name="insulin" required />
+
+      <label>BMI</label>
+      <input type="number" step="any" name="bmi" required />
+
+      <label>Diabetes Pedigree Function</label>
+      <input type="number" step="any" name="dpf" required />
+
+      <label>Age</label>
+      <input type="number" name="age" required />
+
+      <button type="submit">Predict</button>
+    </form>
+  </div>
+</body>
+</html>

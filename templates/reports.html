@@ -1,0 +1,108 @@
+<!-- templates/reports.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Reports</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #e0f7fa, #ffffff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #006064;
+            margin-bottom: 30px;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border-radius: 8px;
+            border: 1px solid #aaa;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #006064;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #004d4d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        th {
+            background-color: #004d4d;
+            color: #fff;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .no-data {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧾 Patient Report History</h1>
+
+    <form method="POST">
+        <input type="text" name="name" placeholder="Enter your name..." required>
+        <button type="submit">🔍 View Reports</button>
+    </form>
+
+    {% if reports %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Disease</th>
+                <th>Result</th>
+                <th>Data Entered</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for report in reports %}
+            <tr>
+                <td>{{ report.name }}</td>
+                <td>{{ report.disease }}</td>
+                <td>{{ report.result }}</td>
+                <td>
+                    {% for key, value in report.data.items() %}
+                        {{ key }}: {{ value }}<br>
+                    {% endfor %}
+                </td>
+                <td>{{ report.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% elif request.method == 'POST' %}
+        <p class="no-data">No reports found for this name.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parkinson's Disease Prediction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2b5876, #4e4376);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 900px;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #cccccc;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    button {
+      padding: 12px;
+      width: 100%;
+      background-color: #00ffd5;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00bfa6;
+    }
+
+    .result-box {
+      margin-top: 30px;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid #00ffd5;
+      color: #00ffd5;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Parkinson's Disease Prediction</h2>
+    <form method="POST">
+      <div class="full-width">
+        <label for="name">Your Name</label>
+        <input type="text" name="name" id="name" required placeholder="Enter your name"/>
+      </div>
+
+      <div>
+        <label>MDVP:Fo(Hz)</label>
+        <input type="number" step="any" name="fo" required />
+      </div>
+
+      <div>
+        <label>MDVP:Fhi(Hz)</label>
+        <input type="number" step="any" name="fhi" required />
+      </div>
+
+      <div>
+        <label>MDVP:Flo(Hz)</label>
+        <input type="number" step="any" name="flo" required />
+      </div>
+
+      <div>
+        <label>MDVP:Jitter(%)</label>
+        <input type="number" step="any" name="jitter_percent" required />
+      </div>
+
+      <div>
+        <label>MDVP:Jitter(Abs)</label>
+        <input type="number" step="any" name="jitter_abs" required />
+      </div>
+
+      <div>
+        <label>MDVP:RAP</label>
+        <input type="number" step="any" name="rap" required />
+      </div>
+
+      <div>
+        <label>MDVP:PPQ</label>
+        <input type="number" step="any" name="ppq" required />
+      </div>
+
+      <div>
+        <label>Jitter:DDP</label>
+        <input type="number" step="any" name="ddp" required />
+      </div>
+
+      <div>
+        <label>MDVP:Shimmer</label>
+        <input type="number" step="any" name="shimmer" required />
+      </div>
+
+      <div>
+        <label>MDVP:Shimmer(dB)</label>
+        <input type="number" step="any" name="shimmer_db" required />
+      </div>
+
+      <div>
+        <label>Shimmer:APQ3</label>
+        <input type="number" step="any" name="apq3" required />
+      </div>
+
+      <div>
+        <label>Shimmer:APQ5</label>
+        <input type="number" step="any" name="apq5" required />
+      </div>
+
+      <div>
+        <label>MDVP:APQ</label>
+        <input type="number" step="any" name="apq" required />
+      </div>
+
+      <div>
+        <label>Shimmer:DDA</label>
+        <input type="number" step="any" name="dda" required />
+      </div>
+
+      <div>
+        <label>NHR</label>
+        <input type="number" step="any" name="nhr" required />
+      </div>
+
+      <div>
+        <label>HNR</label>
+        <input type="number" step="any" name="hnr" required />
+      </div>
+
+      <div>
+        <label>RPDE</label>
+        <input type="number" step="any" name="rpde" required />
+      </div>
+
+      <div>
+        <label>DFA</label>
+        <input type="number" step="any" name="dfa" required />
+      </div>
+
+      <div>
+        <label>Spread1</label>
+        <input type="number" step="any" name="spread1" required />
+      </div>
+
+      <div>
+        <label>Spread2</label>
+        <input type="number" step="any" name="spread2" required />
+      </div>
+
+      <div>
+        <label>D2</label>
+        <input type="number" step="any" name="d2" required />
+      </div>
+
+      <div>
+        <label>PPE</label>
+        <input type="number" step="any" name="ppe" required />
+      </div>
+
+      <div class="full-width">
+        <button type="submit">Predict</button>
+      </div>
+    </form>
+
+    {% if result %}
+      <div class="result-box">
+        {{ result }}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

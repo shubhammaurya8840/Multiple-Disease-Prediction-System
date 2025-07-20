@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthPredict+ | Landing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="gradient-bg">
+  <div class="landing-container">
+    <h1 class="title">Welcome to <span style="color:#00cec9;">HealthPredict+</span></h1>
+    <p class="tagline">AI-powered predictions for a healthier tomorrow</p>
+
+    <div class="card-container">
+      <a href="{{ url_for('admin_login') }}" class="login-card admin-card">
+        <h2>Admin Login</h2>
+        <p>Manage and view all reports</p>
+      </a>
+      <a href="{{ url_for('patient_login') }}" class="login-card patient-card">
+        <h2>Patient Login</h2>
+        <p>Check your health predictions</p>
+      </a>
+    </div>
+
+   
+     <p style="text-align: center; font-size: 15px; color: #ffffffcc; margin-top: 20px; font-family: 'Poppins', sans-serif;">
+  Designed & Developed by 
+  <span style="color: #00cec9; font-weight: 600;">Shubham Maurya</span>
+</p>
+
+
+   
+  </div>
+</body>
+</html>
