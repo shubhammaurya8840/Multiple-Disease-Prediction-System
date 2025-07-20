@@ -6,8 +6,10 @@ import pickle
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# MongoDB Setup
-client = MongoClient("mongodb+srv://shubhammauryagkp:shubham123@cluster0.vornv2m.mongodb.net/?retryWrites=true&w=majority&tls=true")
+# MongoDB Setup (fixed TLS issue for Render)
+client = MongoClient(
+    "mongodb+srv://shubhammauryagkp:shubham123@cluster0.vornv2m.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsAllowInvalidCertificates=true"
+)
 db = client["disease_prediction_db"]
 collection = db["reports"]
 
