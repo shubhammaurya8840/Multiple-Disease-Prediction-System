@@ -1,31 +1,36 @@
 import os
+from dotenv import load_dotenv  # ✅ Load environment variables
 from flask import Flask, render_template, request, redirect, session
 from pymongo import MongoClient
 from datetime import datetime
 import pickle
 
+# ✅ Load variables from .env file
+load_dotenv()
+
 app = Flask(__name__)
 
-# ✅ Use environment variable for Flask secret key
+# ✅ Use environment variables
 app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")
-
-# ✅ Use environment variable for MongoDB connection string
 mongo_uri = os.environ.get("MONGO_URI")
+
+# ✅ MongoDB Setup
 client = MongoClient(mongo_uri)
 db = client["disease_prediction_db"]
 collection = db["reports"]
 
-# Load Models
+# ✅ Load Models
 diabetes_model = pickle.load(open("models/diabetes_model.pkl", "rb"))
 heart_model = pickle.load(open("models/heart_model.pkl", "rb"))
 parkinson_model = pickle.load(open("models/parkinson_model.pkl", "rb"))
 
-# Load Scalers
+# ✅ Load Scalers
 diabetes_scaler = pickle.load(open("models/diabetes_scaler.pkl", "rb"))
 heart_scaler = pickle.load(open("models/heart_scaler.pkl", "rb"))
 parkinson_scaler = pickle.load(open("models/parkinson_scaler.pkl", "rb"))
 
-# Routes
+# ✅ Routes
+
 @app.route("/")
 def home():
     return render_template("index.html")
