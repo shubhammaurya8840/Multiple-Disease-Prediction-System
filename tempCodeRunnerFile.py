@@ -1,64 +1,67 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, session
 from pymongo import MongoClient
 from datetime import datetime
 import pickle
-import numpy as np
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# MongoDB connection
-client = MongoClient("mongodb+srv://shubhammauryagkp:shubham123@cluster0.vornv2m.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+# MongoDB Setup
+client = MongoClient(
+    "mongodb+srv://shubhammauryagkp:shubham123@cluster0.vornv2m.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsAllowInvalidCertificates=true"
+)
 db = client["disease_prediction_db"]
 collection = db["reports"]
 
-# Load models
+# Load Models
 diabetes_model = pickle.load(open("models/diabetes_model.pkl", "rb"))
 heart_model = pickle.load(open("models/heart_model.pkl", "rb"))
 parkinson_model = pickle.load(open("models/parkinson_model.pkl", "rb"))
 
-# Home Page
+# ✅ Load Scalers
+diabetes_scaler = pickle.load(open("models/diabetes_scaler.pkl", "rb"))
+heart_scaler = pickle.load(open("models/heart_scaler.pkl", "rb"))
+parkinson_scaler = pickle.load(open("models/parkinson_scaler.pkl", "rb"))
+
+# Routes
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# Admin Login
-@app.route("/admin", methods=["GET", "POST"])
+@app.route("/admin_login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         if username == "admin" and password == "admin123":
             session["admin"] = True
-            return redirect("/admin-dashboard")
+            return redirect("/admin_dashboard")
     return render_template("admin_login.html")
 
-# Admin Dashboard
-@app.route("/admin-dashboard")
+@app.route("/admin_dashboard")
 def admin_dashboard():
     if not session.get("admin"):
-        return redirect("/admin")
+        return redirect("/admin_login")
     reports = list(collection.find().sort("timestamp", -1))
     return render_template("admin_dashboard.html", reports=reports)
 
-# Patient Login
-@app.route("/patient", methods=["GET", "POST"])
+@app.route("/patient_login", methods=["GET", "POST"])
 def patient_login():
     if request.method == "POST":
-        session["patient"] = request.form["name"]
-        return redirect("/patient-dashboard")
+        name = request.form["name"]
+        session["patient"] = name
+        return redirect("/patient_dashboard")
     return render_template("patient_login.html")
 
-# Patient Dashboard
-@app.route("/patient-dashboard")
+@app.route("/patient_dashboard")
 def patient_dashboard():
     name = session.get("patient")
     if not name:
-        return redirect("/patient")
+        return redirect("/patient_login")
     reports = list(collection.find({"name": {"$regex": f"^{name}$", "$options": "i"}}).sort("timestamp", -1))
     return render_template("patient_dashboard.html", reports=reports)
 
-# Disease Prediction Routes
 @app.route("/diabetes", methods=["GET", "POST"])
 def diabetes():
     result = None
@@ -66,7 +69,8 @@ def diabetes():
         form_data = request.form.to_dict()
         name = form_data.pop("name")
         data = [float(value) for value in form_data.values()]
-        pred = diabetes_model.predict([data])[0]
+        scaled_data = diabetes_scaler.transform([data])  # ✅ scale input
+        pred = diabetes_model.predict(scaled_data)[0]
         result = "Diabetes Detected" if pred == 1 else "No Diabetes"
         collection.insert_one({
             "name": name,
@@ -84,7 +88,8 @@ def heart():
         form_data = request.form.to_dict()
         name = form_data.pop("name")
         data = [float(value) for value in form_data.values()]
-        pred = heart_model.predict([data])[0]
+        scaled_data = heart_scaler.transform([data])  # ✅ scale input
+        pred = heart_model.predict(scaled_data)[0]
         result = "Heart Disease Detected" if pred == 1 else "No Heart Disease"
         collection.insert_one({
             "name": name,
@@ -102,7 +107,8 @@ def parkinson():
         form_data = request.form.to_dict()
         name = form_data.pop("name")
         data = [float(value) for value in form_data.values()]
-        pred = parkinson_model.predict([data])[0]
+        scaled_data = parkinson_scaler.transform([data])  # ✅ scale input
+        pred = parkinson_model.predict(scaled_data)[0]
         result = "Parkinson's Detected" if pred == 1 else "No Parkinson's"
         collection.insert_one({
             "name": name,
@@ -113,15 +119,5 @@ def parkinson():
         })
     return render_template("parkinson.html", result=result)
 
-# ✅ Add working route aliases
-@app.route("/login/admin")
-def login_admin():
-    return redirect("/admin")
-
-@app.route("/login/patient")
-def login_patient():
-    return redirect("/patient")
-
-# Run the app
 if __name__ == "__main__":
     app.run(debug=True)
