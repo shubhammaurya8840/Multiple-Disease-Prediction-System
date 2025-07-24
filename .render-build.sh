@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-# Use pip instead of poetry
+# Force Render to use pip install instead of Poetry
 pip install -r requirements.txt
