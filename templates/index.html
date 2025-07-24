@@ -4,33 +4,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HealthPredict+ | Landing</title>
+
+  <!-- External CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body class="gradient-bg">
   <div class="landing-container">
-    <h1 class="title">Welcome to <span style="color:#00cec9;">HealthPredict+</span></h1>
+
+    <!-- Title -->
+    <h1 class="title"><i class="fas fa-heartbeat glowing-icon"></i> <span class="highlighted">HealthPredict+</span></h1>
     <p class="tagline">AI-powered predictions for a healthier tomorrow</p>
 
+    <!-- Cards -->
     <div class="card-container">
       <a href="{{ url_for('admin_login') }}" class="login-card admin-card">
+        <div class="card-icon"><i class="fas fa-user-shield"></i></div>
         <h2>Admin Login</h2>
         <p>Manage and view all reports</p>
       </a>
       <a href="{{ url_for('patient_login') }}" class="login-card patient-card">
+        <div class="card-icon"><i class="fas fa-user-md"></i></div>
         <h2>Patient Login</h2>
         <p>Check your health predictions</p>
       </a>
     </div>
 
-   
-     <p style="text-align: center; font-size: 15px; color: #ffffffcc; margin-top: 20px; font-family: 'Poppins', sans-serif;">
-  Designed & Developed by 
-  <span style="color: #00cec9; font-weight: 600;">Shubham Maurya</span>
-</p>
+    <!-- Credits -->
+    <p class="credit-text">
+      Designed & Developed by <span class="highlighted">Shubham Maurya</span>
+    </p>
+
+    <!-- Footer -->
+  <footer class="footer-box">
+  <div class="footer-content">
+
+    <!-- Phone & Email -->
+    <p>
+      <i class="fas fa-phone"></i>
+      <a href="tel:+918840649784">+91-8840649784</a>
+      &nbsp;&nbsp;
+      <i class="fas fa-envelope"></i>
+      <a href="mailto:shubhammauryagkp@gmail.com">shubhammauryagkp@gmail.com</a>
+    </p>
+
+    <!-- Social Icons -->
+    <p class="social-links">
+      <a href="https://www.linkedin.com/in/shubhammauryagkp/" target="_blank" title="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/shubhammaurya8840" target="_blank" title="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://leetcode.com/shubhammaurya8840" target="_blank" title="LeetCode">
+        <i class="fas fa-code"></i>
+      </a>
+      <a href="https://shubhammauryaportfolio.netlify.app/" target="_blank" title="Portfolio">
+        <i class="fas fa-globe"></i>
+      </a>
+      <a href="https://drive.google.com/file/d/1zTFPfcGnXdKBylV_vEky6c1sY6V6jf6S/view?usp=sharing" target="_blank" title="Resume">
+        <i class="fas fa-file-alt"></i>
+      </a>
+    </p>
+
+    <!-- Location -->
+    <p style="font-size: 14px;">
+      <i class="fas fa-map-marker-alt"></i> Gorakhpur, Uttar Pradesh
+    </p>
+
+  </div>
+</footer>
 
 
-   
+
   </div>
 </body>
 </html>

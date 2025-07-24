@@ -5,48 +5,50 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 import pickle
 
-# Make sure models directory exists
 os.makedirs("models", exist_ok=True)
 
-# ------------- Diabetes Model -------------
+# ----------------- Diabetes -----------------
 data = pd.read_csv("diabetes.csv")
 X = data.drop("Outcome", axis=1)
 y = data["Outcome"]
 
-scaler = StandardScaler()
-X = scaler.fit_transform(X)
+scaler_diabetes = StandardScaler()
+X_scaled = scaler_diabetes.fit_transform(X)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2)
 
-model = LogisticRegression(max_iter=1000)
-model.fit(X_train, y_train)
+model_diabetes = LogisticRegression(max_iter=1000)
+model_diabetes.fit(X_train, y_train)
 
-pickle.dump(model, open("models/diabetes_model.pkl", "wb"))
+pickle.dump(model_diabetes, open("models/diabetes_model.pkl", "wb"))
+pickle.dump(scaler_diabetes, open("models/diabetes_scaler.pkl", "wb"))
 
-# ------------- Heart Disease Model -------------
+# ----------------- Heart -----------------
 df_heart = pd.read_csv("heart.csv")
 X = df_heart.drop("target", axis=1)
 y = df_heart["target"]
 
-X = scaler.fit_transform(X)
+scaler_heart = StandardScaler()
+X_scaled = scaler_heart.fit_transform(X)
 
-model = LogisticRegression(max_iter=1000)
-model.fit(X, y)
+model_heart = LogisticRegression(max_iter=1000)
+model_heart.fit(X_scaled, y)
 
-pickle.dump(model, open("models/heart_model.pkl", "wb"))
+pickle.dump(model_heart, open("models/heart_model.pkl", "wb"))
+pickle.dump(scaler_heart, open("models/heart_scaler.pkl", "wb"))
 
-# ------------- Parkinson's Disease Model -------------
+# ----------------- Parkinson -----------------
 df_parkinson = pd.read_csv("parkinsons.csv")
-
-# Drop name and use features only
 X = df_parkinson.drop(["status", "name"], axis=1)
 y = df_parkinson["status"]
 
-X = scaler.fit_transform(X)
+scaler_parkinson = StandardScaler()
+X_scaled = scaler_parkinson.fit_transform(X)
 
-model = LogisticRegression(max_iter=1000)
-model.fit(X, y)
+model_parkinson = LogisticRegression(max_iter=1000)
+model_parkinson.fit(X_scaled, y)
 
-pickle.dump(model, open("models/parkinson_model.pkl", "wb"))
+pickle.dump(model_parkinson, open("models/parkinson_model.pkl", "wb"))
+pickle.dump(scaler_parkinson, open("models/parkinson_scaler.pkl", "wb"))
 
-print("All Models Trained and Saved Successfully.")
+print("✅ All models and scalers saved successfully.")

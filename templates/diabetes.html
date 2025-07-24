@@ -4,36 +4,100 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Diabetes Prediction</title>
+
+  <!-- External Styles -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Local Result Styles -->
   <style>
     .result-box {
       margin-top: 20px;
       padding: 20px;
       border-radius: 10px;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
       text-align: center;
       animation: fadeIn 1s ease-in-out;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
+
     .positive {
       background-color: rgba(255, 0, 0, 0.1);
-      color: #e60000;
+      color: #ff4d4d;
       border: 2px solid #e60000;
     }
+
     .negative {
       background-color: rgba(0, 128, 0, 0.1);
-      color: #008000;
-      border: 2px solid #008000;
+      color: #00e676;
+      border: 2px solid #00c853;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .form-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #00cec9;
+    }
+
+    .prediction-form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 500;
+      color: #f1f1f1;
+    }
+
+    .prediction-form input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .prediction-form input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .prediction-form button {
+      width: 100%;
+      padding: 14px;
+      background-color: #6c5ce7;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .prediction-form button:hover {
+      background-color: #a29bfe;
+    }
+    .form-container {
+  max-width: 500px;
+  margin: 60px auto;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
   </style>
 </head>
 <body class="gradient-bg">
+
   <div class="form-container">
     <h1 class="form-title">Diabetes Prediction</h1>
 
@@ -74,5 +138,6 @@
       <button type="submit">Predict</button>
     </form>
   </div>
+
 </body>
 </html>

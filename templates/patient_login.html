@@ -12,14 +12,21 @@
       box-sizing: border-box;
     }
 
-    body {
+   body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #2b5876, #4e4376);
-      color: #fff;
+      background: linear-gradient(-45deg, #0b0c10, #212a43, #0d101c, #1f2235);
+      background-size: 300% 300%;
+      animation: darkFlow 10s ease infinite;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      color: #fff;
+    }
+        @keyframes darkFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .login-container {

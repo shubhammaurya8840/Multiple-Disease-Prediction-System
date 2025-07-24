@@ -4,21 +4,61 @@
   <meta charset="UTF-8" />
   <title>Admin Dashboard | HealthPredict+</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="gradient-bg">
+<body class="dark-theme">
+
   <div class="dashboard-container">
-    <h2>All Patient Reports</h2>
-    {% for r in reports %}
-      <div class="report-card">
-        <p><strong>Name:</strong> {{ r.name }}</p>
-        <p><strong>Disease:</strong> {{ r.disease }}</p>
-        <p><strong>Result:</strong> {{ r.result }}</p>
-        <p><strong>Date:</strong> {{ r.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
-      </div>
-    {% else %}
-      <p class="no-data">No reports found.</p>
-    {% endfor %}
-    <a href="{{ url_for('home') }}" class="back-link">← Logout / Home</a>
+
+    <!-- Header -->
+    <div class="dashboard-header">
+      <h1 class="logo"><i class="fas fa-heartbeat"></i> HealthPredict+</h1>
+      <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <!-- Title -->
+    <h2 class="dashboard-title">All Patient Reports</h2>
+
+    <!-- Reports -->
+    <div class="reports-wrapper">
+      {% for report in reports %}
+        <div class="report-card">
+          <p><strong>Name:</strong> {{ report.name }}</p>
+          <p><strong>Disease:</strong> {{ report.disease }}</p>
+          <p><strong>Result:</strong> {{ report.result }}</p>
+          <p><strong>Date:</strong> {{ report.timestamp.strftime('%d %B %Y, %I:%M %p') }}</p>
+
+          <button class="toggle-btn" onclick="toggleDetails(this)">Show Details</button>
+
+          <div class="details-section" style="display: none;">
+            <p class="details-title"><i class="fas fa-info-circle"></i> Patient Input Data:</p>
+            <ul class="details-list">
+              {% for key, value in report.data.items() %}
+                <li><span>{{ key.replace('_', ' ').capitalize() }}:</span> {{ value }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% else %}
+        <p class="no-data">No reports found.</p>
+      {% endfor %}
+    </div>
+
   </div>
+
+  <script>
+    function toggleDetails(button) {
+      const section = button.nextElementSibling;
+      if (section.style.display === "none") {
+        section.style.display = "block";
+        button.textContent = "Hide Details";
+      } else {
+        section.style.display = "none";
+        button.textContent = "Show Details";
+      }
+    }
+  </script>
+
 </body>
 </html>

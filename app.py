@@ -6,17 +6,22 @@ import pickle
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# MongoDB Setup (fixed TLS issue for Render)
+# MongoDB Setup
 client = MongoClient(
     "mongodb+srv://shubhammauryagkp:shubham123@cluster0.vornv2m.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsAllowInvalidCertificates=true"
 )
 db = client["disease_prediction_db"]
 collection = db["reports"]
 
-# Load ML Models
+# Load Models
 diabetes_model = pickle.load(open("models/diabetes_model.pkl", "rb"))
 heart_model = pickle.load(open("models/heart_model.pkl", "rb"))
 parkinson_model = pickle.load(open("models/parkinson_model.pkl", "rb"))
+
+# ✅ Load Scalers
+diabetes_scaler = pickle.load(open("models/diabetes_scaler.pkl", "rb"))
+heart_scaler = pickle.load(open("models/heart_scaler.pkl", "rb"))
+parkinson_scaler = pickle.load(open("models/parkinson_scaler.pkl", "rb"))
 
 # Routes
 
@@ -64,7 +69,8 @@ def diabetes():
         form_data = request.form.to_dict()
         name = form_data.pop("name")
         data = [float(value) for value in form_data.values()]
-        pred = diabetes_model.predict([data])[0]
+        scaled_data = diabetes_scaler.transform([data])  # ✅ scale input
+        pred = diabetes_model.predict(scaled_data)[0]
         result = "Diabetes Detected" if pred == 1 else "No Diabetes"
         collection.insert_one({
             "name": name,
@@ -82,7 +88,8 @@ def heart():
         form_data = request.form.to_dict()
         name = form_data.pop("name")
         data = [float(value) for value in form_data.values()]
-        pred = heart_model.predict([data])[0]
+        scaled_data = heart_scaler.transform([data])  # ✅ scale input
+        pred = heart_model.predict(scaled_data)[0]
         result = "Heart Disease Detected" if pred == 1 else "No Heart Disease"
         collection.insert_one({
             "name": name,
@@ -100,7 +107,8 @@ def parkinson():
         form_data = request.form.to_dict()
         name = form_data.pop("name")
         data = [float(value) for value in form_data.values()]
-        pred = parkinson_model.predict([data])[0]
+        scaled_data = parkinson_scaler.transform([data])  # ✅ scale input
+        pred = parkinson_model.predict(scaled_data)[0]
         result = "Parkinson's Detected" if pred == 1 else "No Parkinson's"
         collection.insert_one({
             "name": name,
