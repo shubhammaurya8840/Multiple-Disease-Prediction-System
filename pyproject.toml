@@ -1,3 +1,3 @@
 [build-system]
-requires = ["setuptools>=42", "wheel", "pip"]
+requires = ["setuptools==65.5.0", "wheel>=0.40.0", "pip>=23.3.1", "setuptools_scm==6.0.1"]
 build-backend = "setuptools.build_meta"
